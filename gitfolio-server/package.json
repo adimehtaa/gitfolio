@@ -1,0 +1,16 @@
+{
+  "name": "gitfolio-server",
+  "version": "1.0.0",
+  "description": "backend",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@octokit/rest": "^22.0.1",
+    "node-cache": "^5.1.2"
+  }
+}
