@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum TemplateTier {
+  FREE
+  PREMIUM
+}
+
+enum TemplateCategory {
+  MINIMAL
+  DEVELOPER
+  CREATIVE
+  HACKER
+  PROFESSIONAL
+  ANIMATED
+  COMMUNITY
+}
+
+model User {
+  id           String   @id @default(uuid())
+  githubId     String   @unique
+  login        String   @unique
+  name         String?
+  email        String?
+  avatarUrl    String?
+  bio          String?
+  role         Role     @default(USER)
+  refreshToken String?
+  createAt     DateTime @default(now())
+  updateAt     DateTime @updatedAt
+
+  savedReadmes    SavedReadme[]
+  customTemplates CustomTemplate[]
+  analytics       AnalyticsEvent[]
+
+  @@map("userss")
+}
+
+model Template {
+  id           String           @id @default(uuid())
+  slug         String           @unique
+  name         String
+  description  String
+  tier         TemplateTier     @default(FREE)
+  category     TemplateCategory
+  tags         String[]
+  previewImage String?
+  isActive     Boolean          @default(true)
+  isFeatured   Boolean          @default(false)
+  usageCount   Int              @default(0)
+  sortOrder    Int              @default(0)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  savedReadmes SavedReadme[]
+
+  @@map("templates")
+}
+
+model CustomTemplate {
+  id          String   @id @default(uuid())
+  userId      String
+  name        String
+  description String?
+  blocks      Json
+  markdown    String
+  isPublic    Boolean
+  forkCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  savedReadmes SavedReadme[]
+
+  @@map("custom_templates")
+}
+
+model SavedReadme {
+  id               String    @id @default(uuid())
+  userId           String
+  templateId       String?
+  customTemplateId String?
+  githubUsername   String?
+  content          String
+  name             String    @default("MY README")
+  pushedAt         DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template       Template?       @relation(fields: [templateId], references: [id])
+  customTemplate CustomTemplate? @relation(fields: [customTemplateId], references: [id])
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(uuid())
+  userId    String?
+  event     String
+  meta      Json?
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([event])
+  @@index([createdAt])
+  @@map("analytics_events")
+}
