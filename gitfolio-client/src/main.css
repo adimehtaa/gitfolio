@@ -1,0 +1,117 @@
+/* ─── main.css ─────────────────────────────────────────── */
+
+/* 1. Tailwind v4 core */
+@import "tailwindcss";
+
+/* 2. Typography plugin (replaces require('@tailwindcss/typography')) */
+@plugin "@tailwindcss/typography";
+
+/* 3. Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@600;700;800&display=swap');
+
+/* 4. Theme — replaces tailwind.config.js entirely */
+@theme {
+  /* Fonts (replaces theme.extend.fontFamily) */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Syne', sans-serif;
+
+  /* Background colors (replaces theme.extend.colors.bg) */
+  --color-bg:   #0d0d0f;
+  --color-bg-2: #141418;
+  --color-bg-3: #1c1c22;
+  --color-bg-4: #24242c;
+
+  /* Accent colors (replaces theme.extend.colors.accent) */
+  --color-accent:     #7c6af7;
+  --color-accent-2:   #a599ff;
+  --color-accent-dim: rgba(124, 106, 247, 0.15);
+
+  /* Border colors (replaces theme.extend.colors.border) */
+  --color-border:   rgba(255, 255, 255, 0.07);
+  --color-border-2: rgba(255, 255, 255, 0.12);
+
+  /* Animations (replaces theme.extend.animation) */
+  --animate-fade-in:    fadeIn 0.2s ease;
+  --animate-slide-up:   slideUp 0.25s ease;
+  --animate-pulse-slow: pulse 3s infinite;
+
+  /* Keyframes (replaces theme.extend.keyframes) */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* 5. Dark mode variant (replaces darkMode: 'class') */
+@custom-variant dark (&:is(.dark, .dark *));
+
+/* 6. Base styles (same as before, @apply tokens still work) */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-bg text-white antialiased;
+    font-family: var(--font-sans);
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-bg-4 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
+  ::selection { background: rgba(124, 106, 247, 0.3); color: #a599ff; }
+}
+
+/* 7. Components (identical to v3 — @apply tokens map automatically) */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-white
+           font-semibold text-sm px-5 py-2.5 rounded-xl transition-all duration-150
+           disabled:opacity-40 disabled:cursor-not-allowed active:scale-95;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 bg-bg-3 hover:bg-bg-4 border border-border-2
+           text-white/70 hover:text-white font-medium text-sm px-5 py-2.5 rounded-xl
+           transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 text-white/50 hover:text-white
+           font-medium text-sm px-3 py-2 rounded-lg transition-colors duration-150;
+  }
+  .card {
+    @apply bg-bg-2 border border-border rounded-2xl;
+  }
+  .input {
+    @apply w-full bg-bg-3 border border-border-2 text-white placeholder-white/30
+           rounded-xl px-4 py-2.5 text-sm font-mono outline-none
+           focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1
+           rounded-full border;
+  }
+  .badge-free    { @apply bg-green-500/10 text-green-400 border-green-500/20; }
+  .badge-premium { @apply bg-accent/10 text-accent-2 border-accent/20; }
+}
+
+/* 8. Markdown preview (unchanged) */
+.md-preview { @apply font-sans text-sm leading-relaxed text-white/90; }
+.md-preview h1 { @apply text-2xl font-bold border-b border-border pb-2 mb-4; }
+.md-preview h2 { @apply text-xl font-semibold border-b border-border pb-1.5 mt-6 mb-3; }
+.md-preview h3 { @apply text-lg font-semibold mt-5 mb-2; }
+.md-preview p  { @apply mb-4; }
+.md-preview a  { @apply text-blue-400 hover:underline; }
+.md-preview code { @apply bg-bg-3 text-accent-2 px-1.5 py-0.5 rounded text-xs font-mono; }
+.md-preview pre { @apply bg-bg-2 border border-border rounded-xl p-4 overflow-x-auto mb-4; }
+.md-preview pre code { @apply bg-transparent p-0 text-white/80; }
+.md-preview blockquote { @apply border-l-4 border-border-2 pl-4 text-white/50 italic mb-4; }
+.md-preview img { @apply max-w-full rounded-lg; }
+.md-preview table { @apply w-full border-collapse mb-4; }
+.md-preview th, .md-preview td { @apply border border-border-2 px-3 py-2 text-sm; }
+.md-preview th { @apply bg-bg-3 font-semibold; }
+.md-preview ul, .md-preview ol { @apply pl-6 mb-4 space-y-1; }
+.md-preview li { @apply text-white/80; }
+.md-preview hr { @apply border-border my-6; }
