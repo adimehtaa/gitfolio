@@ -1,13 +1,10 @@
-/* ─── main.css ─────────────────────────────────────────── */
-
-/* 1. Tailwind v4 core */
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@600;700;800&display=swap');
 
-/* 2. Typography plugin (replaces require('@tailwindcss/typography')) */
+
 @plugin "@tailwindcss/typography";
 
-/* 3. Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@600;700;800&display=swap');
+
 
 /* 4. Theme — replaces tailwind.config.js entirely */
 @theme {
