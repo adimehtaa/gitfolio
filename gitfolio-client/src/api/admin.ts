@@ -5,34 +5,27 @@ type AdminUser = {
     username: string
     banned: boolean
 }
-
 export const adminApi = {
-    overview: async () => {
-        const res = await api.get('/admin/analytics/overview')
-        return res.data
-    },
+    overview: () =>
+        api.get('/admin/analytics/overview'),
 
-    users: async (page = 1) => {
-        const res = await api.get<AdminUser[]>('/admin/users', {
-            params: { page },
-        })
-        return res.data
-    },
+    users: (page = 1, search = '') =>
+        api.get('/admin/users', {
+            params: { page, search },
+        }),
 
-    banUser: async (id: string) => {
-        await api.patch(`/admin/users/${id}/ban`)
-    },
+    setRole: (id: string, role: string) =>
+        api.patch(`/admin/users/${id}/role`, { role }),
 
-    templates: async () => {
-        const res = await api.get('/admin/templates')
-        return res.data
-    },
+    deleteUser: (id: string) =>
+        api.delete(`/admin/users/${id}`),
 
-    toggleTemplate: async (id: string) => {
-        await api.patch(`/admin/templates/${id}/toggle`)
-    },
+    templates: () =>
+        api.get('/admin/templates'),
 
-    featureTemplate: async (id: string) => {
-        await api.patch(`/admin/templates/${id}/feature`)
-    },
-}
+    toggleTemplate: (id: string) =>
+        api.patch(`/admin/templates/${id}/toggle`),
+
+    featureTemplate: (id: string) =>
+        api.patch(`/admin/templates/${id}/feature`),
+};
