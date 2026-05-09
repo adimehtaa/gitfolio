@@ -17,7 +17,7 @@
                 </h3>
                 <p class="text-xs text-white/40 mt-0.5 line-clamp-2">{{ template.description }}</p>
             </div>
-            <span :class="template.tier === 'free' ? 'badge-free' : 'badge-premium'" class="badge flex-shrink-0">
+            <span :class="template.tier === 'free' ? 'badge-free' : 'badge-premium'" class="badge shrink-0">
                 {{ template.tier }}
             </span>
         </div>

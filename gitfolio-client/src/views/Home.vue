@@ -14,7 +14,7 @@
 
       <h1 class="font-display text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6">
         Build a
-        <span class="bg-gradient-to-r from-accent-2 to-pink-400 bg-clip-text text-transparent">
+        <span class="bg-linear-to-r from-accent-2 to-pink-400 bg-clip-text text-transparent">
           stunning
         </span>
         <br/>GitHub profile
@@ -28,7 +28,7 @@
       <!-- Input -->
       <form @submit.prevent="handleGenerate" class="max-w-lg mx-auto mb-6">
         <div class="flex gap-2 bg-bg-2 border border-border-2 rounded-2xl p-2 focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition-all">
-          <span class="flex items-center pl-3 text-white/30 font-mono text-sm flex-shrink-0">@</span>
+          <span class="flex items-center pl-3 text-white/30 font-mono text-sm shrink-0">@</span>
           <input
             v-model="username"
             type="text"
@@ -38,7 +38,7 @@
             :disabled="loading"
             class="flex-1 bg-transparent outline-none text-white placeholder-white/20 font-mono text-sm py-2"
           />
-          <button type="submit" :disabled="!username.trim() || loading" class="btn-primary rounded-xl py-2.5 px-6 flex-shrink-0">
+          <button type="submit" :disabled="!username.trim() || loading" class="btn-primary rounded-xl py-2.5 px-6 shrink-0">
             <span v-if="loading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/>
             <span v-else>Generate →</span>
           </button>

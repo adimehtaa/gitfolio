@@ -1,39 +1,12 @@
 import { api } from './client'
 
-type SavedItem = {
-    id: string
-    name: string
-    content: string
-    githubUsername: string
-    templateId?: string
-    createdAt: string
-}
-
 export const savedApi = {
-    list: async () => {
-        const res = await api.get<SavedItem[]>('/saved')
-        return res.data
-    },
-
-    create: async (data: {
-        name: string
-        content: string
-        githubUsername: string
-        templateId?: string
-    }) => {
-        const res = await api.post<SavedItem>('/saved', data)
-        return res.data
-    },
-
-    update: async (
-        id: string,
-        data: { name?: string; content?: string }
-    ) => {
-        const res = await api.put<SavedItem>(`/saved/${id}`, data)
-        return res.data
-    },
-
-    delete: async (id: string) => {
-        await api.delete(`/saved/${id}`)
-    },
+    list: () =>
+        api.get('/saved').then(r => r.data),  // unwrap for convenience
+    create: (data: { name: string; content: string; githubUsername: string; templateId?: string }) =>
+        api.post('/saved', data),
+    update: (id: string, data: { name?: string; content?: string }) =>
+        api.put(`/saved/${id}`, data),
+    delete: (id: string) =>
+        api.delete(`/saved/${id}`),
 }

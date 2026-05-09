@@ -68,8 +68,8 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { Github as GithubIcon } from 'lucide-vue-next'
-import TemplateCard from './TemplateCard.vue'
-import LoadingSpinner from '../ui/LoadingSpinner.vue'
+import TemplateCard from '../components/template/TemplateCard.vue'; 
+import LoadingSpinner from '../components/ui/LoadingSpinner.vue'
 import { useTemplatesStore } from '../stores/templates';
 import { useAuthStore } from '../stores/auth';
 

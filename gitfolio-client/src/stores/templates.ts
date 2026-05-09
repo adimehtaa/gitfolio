@@ -27,7 +27,8 @@ export const useTemplatesStore = defineStore('templates', () => {
     async function fetchAll() {
         loading.value = true
         try {
-            all.value = await templatesApi.list()
+            const { data } = await templatesApi.list()
+            all.value = data
         } finally {
             loading.value = false
         }

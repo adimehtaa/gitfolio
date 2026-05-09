@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-6">
 
       <!-- Logo -->
-      <RouterLink to="/" class="flex items-center gap-2.5 flex-shrink-0">
+      <RouterLink to="/" class="flex items-center gap-2.5 shrink-0">
         <span class="text-accent text-lg">◈</span>
         <span class="font-display font-bold text-sm tracking-tight">ReadmeGen</span>
       </RouterLink>
