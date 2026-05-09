@@ -7,7 +7,7 @@ export async function generateReadme(
     templateId: string,
     profile: GitHubProfile,
     options: TemplateOptions = {},
-    userId: string
+    userId?: string
 ): Promise<string> {
     const template = templateRegistry.get(templateId)
 
@@ -30,7 +30,7 @@ export async function generateReadme(
                     githubUsername: profile.user.login,
                 },
             }
-        })
+        }).catch(() => {})
     }
 
     return markdown;
