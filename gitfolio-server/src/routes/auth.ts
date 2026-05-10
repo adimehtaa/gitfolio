@@ -15,8 +15,18 @@ import { authenticate } from '../middleware/auth.js';
 
 
 const router = Router()
-const pendingStates = new Set<string>();
 
+async function addState(state: string) {
+  await redis.setEx(`oauth:state:${state}`, 600, '1') // survives restarts
+}
+
+// Check + delete atomically → works across all processes
+async function consumeState(state: string): Promise<boolean> {
+  const val = await redis.get(`oauth:state:${state}`)
+  if (!val) return false
+  await redis.del(`oauth:state:${state}`)
+  return true
+}
 
 function signTokens(payload: { userId: string; login: string; role: string; ghToken: string }) {
     const access = jwt.sign(payload, env.JWT_ACCESS_SECRET, { expiresIn: env.JWT_ACCESS_EXPIRES as StringValue })
@@ -24,10 +34,9 @@ function signTokens(payload: { userId: string; login: string; role: string; ghTo
     return { access, refresh }
 }
 
-router.get('/github', authLimiter, (req, res) => {
+router.get('/github', authLimiter, async (req, res) => {
     const state = crypto.randomBytes(16).toString('hex')
-    pendingStates.add(state)
-    setTimeout(() => pendingStates.delete(state), 10 * 60 * 1000)
+    await addState(state)
 
     const params = new URLSearchParams({
         client_id: env.GITHUB_CLIENT_ID,
@@ -40,10 +49,9 @@ router.get('/github', authLimiter, (req, res) => {
 
 router.get('/github/callback', authLimiter, async (req, res, next) => {
     const { code, state } = req.query as { code: string; state: string }
-    if (!state || !pendingStates.has(state)) {
+    if (!state || !(await consumeState(state))) {
         return res.redirect(`${env.CLIENT_URL}?error=invalid_state`)
     }
-    pendingStates.delete(state)
 
     try {
         const { data: tokenData } = await axios.post(

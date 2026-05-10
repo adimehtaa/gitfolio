@@ -107,7 +107,6 @@ onMounted(() => {
     if (!editor.markdown) regenerate()
 })
 
-// In Editor.vue — fix the regenerate function
 async function regenerate() {
     if (!profile.data || generating.value) return
     generating.value = true
@@ -117,7 +116,7 @@ async function regenerate() {
             templateId: editor.templateId,
             options: { theme: editor.theme, sections: editor.enabledSections }
         })
-        editor.setMarkdown(data.content)
+        editor.setMarkdown(data.data.markdown)
     } finally {
         generating.value = false
     }

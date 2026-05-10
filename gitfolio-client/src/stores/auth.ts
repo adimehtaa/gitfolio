@@ -5,7 +5,8 @@ import { authApi } from '../api/auth'
 export const useAuthStore = defineStore(
     'auth',
     () => {
-        const token = ref<string | null>(null)
+        const token = ref<string | null>(localStorage.getItem('access_token'))
+
         const user = ref<any | null>(null)
         const loading = ref(false)
 
@@ -14,15 +15,14 @@ export const useAuthStore = defineStore(
 
         function setToken(t: string) {
             token.value = t
+            localStorage.setItem('access_token', t)
         }
 
         async function logout() {
-            try {
-                await authApi.logout()
-            } catch (_) { }
-
+            try { await authApi.logout() } catch (_) { }
             token.value = null
             user.value = null
+            localStorage.removeItem('access_token')
         }
 
         async function fetchMe() {
