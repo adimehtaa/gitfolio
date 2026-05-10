@@ -42,14 +42,14 @@ model User {
   bio          String?
   role         Role     @default(USER)
   refreshToken String?
-  createAt     DateTime @default(now())
-  updateAt     DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   savedReadmes    SavedReadme[]
   customTemplates CustomTemplate[]
   analytics       AnalyticsEvent[]
 
-  @@map("userss")
+  @@map("users")
 }
 
 model Template {

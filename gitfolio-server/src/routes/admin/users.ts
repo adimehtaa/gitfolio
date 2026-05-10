@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
       prisma.user.findMany({
         where,
         skip, take,
-        orderBy: { createAt: 'desc' },
+        orderBy: { createdAt: 'desc' },
         select: { id: true, login: true, name: true, email: true, avatarUrl: true, role: true, createdAt: true },
       }),
       prisma.user.count({ where }),

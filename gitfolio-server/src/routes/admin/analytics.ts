@@ -14,7 +14,7 @@ router.get('/overview', async (req, res, next) => {
             prisma.user.count(),
             prisma.analyticsEvent.count({ where: { event: 'readme_generated' } }),
             prisma.analyticsEvent.count({ where: { event: 'readme_pushed' } }),
-            prisma.user.count({ where: { createAt: { gte: todayStart } } }),
+            prisma.user.count({ where: { createdAt: { gte: todayStart } } }),
             prisma.template.findMany({
                 where: { isActive: true },
                 orderBy: { usageCount: 'desc' },
